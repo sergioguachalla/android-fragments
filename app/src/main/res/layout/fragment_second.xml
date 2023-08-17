@@ -18,6 +18,7 @@
             android:text="This is fragment two"
             android:layout_gravity="center_horizontal"
             android:textSize="24dp"
+            android:id="@+id/etSumResult"
             />
 
 
