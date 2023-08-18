@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-public class MainActivity extends AppCompatActivity implements BlankFragment.OnSumListener  {
+public class MainActivity extends AppCompatActivity implements BlankFragment.OnSumListener, BlankFragment.onProductListener  {
 
 
 
@@ -40,13 +40,24 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnS
 
 
     @Override
+    public void onProductSent(int a, int b) {
+        int product = a * b;
+        Bundle args = new Bundle();
+        args.putInt("product", product);
+        NewFragment newFragment1 = new NewFragment();
+        newFragment1.setArguments(args);
+
+        FragmentManager fragmentManage = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManage.beginTransaction();
+        fragmentTransaction.replace(R.id.flContainer, newFragment1);
+        fragmentTransaction.commit();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)  {
 
 
-
-
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_main);
         homeFragment = new HomeFragment();
@@ -85,7 +96,15 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnS
         buttonThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.flContainer ,newFragment).commit();
+                blankFragment = (BlankFragment) getSupportFragmentManager().findFragmentById(R.id.flContainer);
+                if(newFragment != null){
+                    EditText editTextNumberOne = blankFragment.getView().findViewById(R.id.etNumberOne);
+                    EditText editTextNumberTwo = blankFragment.getView().findViewById(R.id.etNumberTwo);
+                    int num1 = Integer.parseInt(editTextNumberOne.getText().toString());
+                    int num2 = Integer.parseInt(editTextNumberTwo.getText().toString());
+                    onProductSent(num1, num2);
+                }
+                //getSupportFragmentManager().beginTransaction().replace(R.id.flContainer ,newFragment).commit();
             }
         });
 

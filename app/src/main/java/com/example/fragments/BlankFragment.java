@@ -29,6 +29,12 @@ public class BlankFragment extends Fragment {
     public interface OnSumListener {
         void onSum(int numberOne, int numberTwo);
     }
+
+    public interface onProductListener {
+        public void onProductSent(int a, int b);
+    }
+
+    private onProductListener productListener;
     private OnSumListener sumListener;
 
     // TODO: Rename and change types of parameters
@@ -45,16 +51,6 @@ public class BlankFragment extends Fragment {
         sumListener.onSum(num1, num2);
     }
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BlankFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static BlankFragment newInstance(String param1, String param2) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
@@ -88,6 +84,9 @@ public class BlankFragment extends Fragment {
         super.onAttach(context);
         try {
             sumListener = (OnSumListener) context;
+            productListener = (onProductListener) context;
+
+
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " debe implementar OnSumListener");
         }
